@@ -1,0 +1,195 @@
+<html>
+<head>
+
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"> </script>
+<!-- Angular -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+
+<!-- Firebase -->
+<script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+
+<!-- AngularFire -->
+<script src="https://cdn.firebase.com/libs/angularfire/1.1.3/angularfire.min.js"></script>
+
+<script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script src="jad/jquery.newsTicker.min.js"></script>
+
+<script>
+
+var i = 0;
+
+// define our app and dependencies (remember to include firebase!)
+var app = angular.module("innovStatus", ["firebase"]);
+
+// inject $firebaseArray into our controller
+app.controller("newsCntrl", ["$scope", "$firebaseArray",
+  function($scope, $firebaseArray) {
+    var messagesRef = new Firebase("https://glaring-torch-3991.firebaseio.com/news");
+
+    // download the data from a Firebase reference into a (pseudo read-only) array
+    // all server changes are applied in realtime
+    $scope.messages = $firebaseArray(messagesRef);
+
+    // create a query for the most recent 25 messages on the server
+    var query = messagesRef.limitToLast(25);
+
+    // the $firebaseArray service properly handles database queries as well
+    $scope.filteredMessages = $firebaseArray(query);
+    
+    //console.log($scope.messages);
+     $scope.messages.$loaded()
+     	.then(function(){
+     		
+     			messagesRef.on('value',function(){    
+          console.log($scope.messages);
+          $('.newsticker').newsTicker({
+
+            row_height: 80,
+            max_rows: 2,
+          });
+      
+      		})
+     		
+     		});	 
+    }
+]);
+
+
+
+
+
+app.controller("eventsCntrl", ["$scope", "$firebaseArray",
+  function($scope, $firebaseArray) {
+    var eventsRef = new Firebase("https://glaring-torch-3991.firebaseio.com/events");
+
+    // download the data from a Firebase reference into a (pseudo read-only) array
+    // all server changes are applied in realtime
+    $scope.events = $firebaseArray(eventsRef);
+
+    // create a query for the most recent 25 messages on the server
+    var query = eventsRef.limitToLast(25);
+
+    // the $firebaseArray service properly handles database queries as well
+    $scope.filteredevents = $firebaseArray(query);
+    
+    //console.log($scope.messages);
+   
+
+   
+    
+  }
+]);
+
+
+
+</script>
+
+
+
+
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+<style>
+
+*{
+margin:0;
+padding:0;
+
+}
+
+p{
+color:#fff;
+font-family:'Open Sans';
+font-weight:300;
+font-size:18px;
+padding:10px;
+}
+
+li{
+list-style:none;
+border-bottom:1px solid #716A5C;
+font-family:'Open Sans';
+
+}
+
+#scroller{
+
+height:500px;
+}
+
+
+
+#main{
+width:70%;
+float:left;
+overflow: hidden;
+}
+
+#scroll {
+width:30%;
+height:100%;
+background:#3B3355;
+float:right;
+}
+
+h1 {
+color:#fff;
+}
+
+
+small {
+
+color:#fff
+
+}
+
+h3{
+color:#fff;
+font-family:'Open Sans';
+font-weight:600;
+font-size:20px;
+padding:10px;
+}
+
+
+
+</style>
+
+</head>
+<body style="background:#000000;" ng-app="innovStatus">
+
+<h3>STARTUP NEWS UPDATES</h3>
+<div id="news" ng-controller="newsCntrl">
+
+<ul class="newsticker">
+<li ng-repeat="message in messages">
+	<h3 ng-bind="message.newsTitle">Loading</h3><p ng-bind="message.newsShort">Loading</p></br><small ng-bind="message.newsSrc">Loading</small>
+</li>
+</ul>
+
+
+</div>
+
+<script>
+
+
+  
+  
+
+</script>
+
+<!-- <div id="scroll" ng-controller="eventsCntrl">
+<h3>TODAY'S EVENTS</h3>
+
+<ul>
+<li ng-repeat="event in events">
+	<p ng-bind="event.eventTitle">Loading...</p></br><small ng-bind="event.eventDate">Loading</small><small ng-bind="event.eventVenue"></small>
+</li>
+</ul>
+
+
+</div>-->
+
+</body>
+
+</html>

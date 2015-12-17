@@ -1,0 +1,270 @@
+<!-- 
+        Its Bootstrap Bitch, you got any problem? 
+
+-->  
+
+<!DOCTYPE html>
+    <html>
+
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="cleartype" content="on">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <script src="js/jquery-1.11.2.min.js"></script>
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"> </script>
+    <!-- Angular -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+
+    <!-- Firebase -->
+    <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+
+    <!-- AngularFire -->
+    <script src="https://cdn.firebase.com/libs/angularfire/1.1.3/angularfire.min.js"></script>
+
+
+    <script src="jad/jquery.newsTicker.min.js"></script>
+
+
+
+    <script>
+        var app = angular.module("innovStatus", ["firebase"]);
+
+        // inject $firebaseArray into our controller
+        app.controller("newsCntrl", ["$scope", "$firebaseArray",
+          function($scope, $firebaseArray) {
+            var messagesRef = new Firebase("https://glaring-torch-3991.firebaseio.com/news");
+
+            // download the data from a Firebase reference into a (pseudo read-only) array
+            // all server changes are applied in realtime
+            $scope.messages = $firebaseArray(messagesRef);
+
+            // create a query for the most recent 25 messages on the server
+            var query = messagesRef.limitToLast(25);
+
+            // the $firebaseArray service properly handles database queries as well
+            $scope.filteredMessages = $firebaseArray(query);
+            
+            //console.log($scope.messages);
+             $scope.messages.$loaded()
+                .then(function(){
+                    
+                    messagesRef.on('value',function(){    
+                        console.log($scope.messages);
+                        $('.newsticker').newsTicker({
+                            row_height: 80,
+                            max_rows: 2,
+                            speed: 500,
+                            duration: 6000,
+                        });
+              
+                   })
+                    
+                });  
+            }
+        ]);
+
+
+
+
+
+        app.controller("eventCntrl", ["$scope", "$firebaseArray",
+  function($scope, $firebaseArray) {
+    var eventsRef = new Firebase("https://glaring-torch-3991.firebaseio.com/events");
+
+    // download the data from a Firebase reference into a (pseudo read-only) array
+    // all server changes are applied in realtime
+    $scope.events = $firebaseArray(eventsRef);
+
+    // create a query for the most recent 25 messages on the server
+    var query = eventsRef.limitToLast(25);
+
+    // the $firebaseArray service properly handles database queries as well
+    $scope.filteredMessages = $firebaseArray(query);
+    
+    //console.log($scope.messages);
+
+    }
+]);
+
+
+
+
+    </script>
+
+
+    <script type="text/javascript">
+
+
+    var vid = document.getElementById("bgvid");
+var pauseButton = document.querySelector("#polina button");
+
+function vidFade() {
+  vid.classList.add("stopfade");
+}
+
+vid.addEventListener('ended', function()
+{
+// only functional if "loop" is removed 
+vid.pause();
+// to capture IE10
+vidFade();
+}); 
+
+
+var video = document.getElementById('bgvid');
+video.addEventListener('click',function(){
+  video.play();
+},false);
+
+        $(document).ready(function() {
+
+             $('.hme-postli').click(function(){
+
+                $('.model').removeClass('no-display');
+
+
+             });
+
+             $('.model-close').click(function(){
+
+                $('.model').addClass('no-display');
+             });
+
+        });
+
+
+
+
+       
+    </script>
+
+    <!-- Custom CSS -->
+        <!--
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800italic' rel='stylesheet' type='text/css'>
+-->
+    <link href="css/main.css" rel="stylesheet">
+    
+
+
+    </head>
+
+        <body ng-app="innovStatus">
+
+            <video autoplay autobuffer poster="" id="bgvid" loop>
+  <!-- WCAG general accessibility recommendation is that media such as background video play through only once. Loop turned on for the purposes of illustration; if removed, the end of the video will fade in the same way created by pressing the "Pause" button  -->
+                <source src="invid1.webm" type="video/webm">
+                <source src="invid.mp4">
+                </video>
+
+           
+            
+            <div class="clear-div"></div>
+            
+            <div class="container" id="contents">
+                <ul class="date-division">
+                    <li ng-controller="newsCntrl">
+                        <h3>Latest News</h3>
+                        <ul class="postul newsticker">
+                            
+                            
+                         <li class="hme-postli" ng-repeat="message in messages">
+
+                                <!--
+                                <div class="upvote-box"><span class="upsign"></span><h6>266</h6></div>
+
+                            -->
+                                
+                                <div class="home-post-right">
+                                
+                                <h2><a href="#" ng-bind="message.newsTitle">CSS3 Animations and Sprites</a></h2> 
+                                <div class="hme-post-details"><a href="#" ng-bind="message.newsSrc">Codrops</a> | INNOV8 Staff</div> 
+                                <p ng-bind="message.newsShort">This command scaffolds an AngularJS application in the current folder. After running yo angular, Yeoman will ask you a few questions regarding how you want to set up your application....  </p>
+                                <div class="home-post-activity">
+                                    <a href="#" class="upvote-primary-btn">Upvote <b>13</b></a> <div class="other-home-activity"> <a href="#">Comment <b>10+</b></a></div>
+                                </div>
+                                <div class="clear-div"></div>
+                                    </div>
+                            </li>
+                            
+                          
+                            
+                            
+                          
+                </ul>
+
+
+                <ul class="date-division more-margin-10">
+                    <li ng-controller="eventCntrl">
+                        <h3>Upcoming Events</h3>
+                        <ul class="postul">
+                            
+                            
+                         <li class="hme-postli" ng-repeat="event in events">
+
+                                <!--
+                                <div class="upvote-box"><span class="upsign"></span><h6>266</h6></div>
+
+                            -->
+                                
+                                <div class="home-post-right">
+                                
+                                <h2><a href="#" ng-bind="event.eventTitle">CSS3 Animations and Sprites</a></h2> 
+                                <div class="hme-post-details"><a href="#" ng-bind="event.eventDate">Codrops</a> | Hosted by <span ng-bind="event.eventHost"></span> </div> 
+                                <p ng-bind="event.eventVenue">This command scaffolds an AngularJS application in the current folder. After running yo angular, Yeoman will ask you a few questions regarding how you want to set up your application....  </p>
+                                <div class="home-post-activity">
+                                    <a href="#" class="upvote-primary-btn">Upvote <b>13</b></a> <div class="other-home-activity"> <a href="#">Comment <b>10+</b></a></div>
+                                </div>
+                                <div class="clear-div"></div>
+                                    </div>
+                            </li>
+                            
+                          
+                            
+                            
+                          
+                </ul>
+
+            </div>
+        
+            <!-- Infomation Box -->
+            <div class="model no-display">
+                <div class="model-close">X</div>
+                <div class="model-content">
+                      
+                          <div class="hme-postli">
+                                <div class="upvote-box"><div class="upsign"></div><h6>266</h6></div>
+                                
+                                <div class="home-post-right">
+                                
+                                <h2><a href="#">Bring JSON data into Angular Route</a></h2> 
+                                <div class="hme-post-details"><a href="#">Codrops</a> | By Innov8</div> 
+                                
+                                <div class="home-post-activity">
+                                    <a href="#" class="upvote-primary-btn">Upvote <b>13</b></a> <div class="other-home-activity"> <a href="#">Comment <b>10+</b></a></div>
+                                </div>
+                                <div class="clear-div"></div>
+                                    </div>
+                            </div>
+                    
+                    
+                    <div class="model-post-date-share">
+                        <img src="img/l1.jpg" class="img-circle">
+                        <h4>Posted on 3 hours ago | By <a href="#">Andrews Mattew</a></h4>
+                        <div class="model-post-date-share-buttons"><a href="#">Twitter</a> | <a href="#">Facebook</a></div>
+                    </div>
+                            
+                </div>
+            </div>
+            
+            
+        </body>
+        
+        
+        
+</html>
