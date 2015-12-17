@@ -62,6 +62,9 @@
                             speed: 500,
                             duration: 6000,
                         });
+
+
+
               
                    })
                     
@@ -156,18 +159,23 @@ video.addEventListener('click',function(){
 
         <body ng-app="innovStatus">
 
-            <video autoplay autobuffer poster="" id="bgvid" loop>
-  <!-- WCAG general accessibility recommendation is that media such as background video play through only once. Loop turned on for the purposes of illustration; if removed, the end of the video will fade in the same way created by pressing the "Pause" button  -->
-                <source src="invid1.webm" type="video/webm">
-                <source src="invid.mp4">
-                </video>
+
+
+
+
 
            
             
             <div class="clear-div"></div>
             
             <div class="container" id="contents">
+
+                <div class="flash-news"></div>
+
+                
                 <ul class="date-division">
+
+
                     <li ng-controller="newsCntrl">
                         <h3>Latest News</h3>
                         <ul class="postul newsticker">
