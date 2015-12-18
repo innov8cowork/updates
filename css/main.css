@@ -24,6 +24,38 @@ transition:all .2s ease-in-out;
     
 }
 
+.hideIt {
+
+    display: none;
+}
+
+.flash-news {
+    position: relative;
+    top:0;
+    width: 100%;
+    background: red;
+    color: #fff;
+    padding: 50px;
+    
+}
+
+
+.static-logo {
+
+    position: fixed;
+    bottom:0;
+    right:0;
+
+    padding:50px;
+
+}
+
+.static-logo img {
+
+    max-width: 45%;
+    float:right;
+}
+
 
 video { 
     position: fixed;
@@ -110,7 +142,6 @@ margin: 10px 0;
     float: left;
 
 }
-
 
 
 

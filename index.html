@@ -49,6 +49,34 @@
 
             // the $firebaseArray service properly handles database queries as well
             $scope.filteredMessages = $firebaseArray(query);
+
+
+
+            // retrieve the last record from `ref`
+            messagesRef.endAt().limitToLast(1).on('child_added', function(snapshot) {
+
+               // all records after the last continue to invoke this function
+
+                if(window.Notification && Notification.permission !== "denied") {
+                    Notification.requestPermission(function(status) {  // status is "granted", if accepted by user
+                        var n = new Notification($scope.newNews.newsTitle, { 
+                            body: $scope.newNews.newsShort,
+                            icon: '/path/to/icon.png' // optional
+                        }); 
+                    });
+                }
+
+
+                $('.flash-news').fadeIn().delay(10000).fadeOut();
+
+
+
+
+               $scope.newNews = snapshot.val();
+
+               console.log($scope.newNews.newsTitle);
+
+            });
             
             //console.log($scope.messages);
              $scope.messages.$loaded()
@@ -161,22 +189,28 @@ video.addEventListener('click',function(){
 
 
 
-
+            <div class="static-logo"><img src="innov8l.png"></img></div>
 
 
            
             
             <div class="clear-div"></div>
             
-            <div class="container" id="contents">
-
-                <div class="flash-news"></div>
+            <div class="container" id="contents" ng-controller="newsCntrl">
 
                 
+                <div class="flash-news hideIt">
+                    <h4>News Alert</h4>
+                    <h2 ng-bind="newNews.newsTitle"></h2>
+                </div>
+
+
+
+
                 <ul class="date-division">
 
 
-                    <li ng-controller="newsCntrl">
+                    <li>
                         <h3>Latest News</h3>
                         <ul class="postul newsticker">
                             
