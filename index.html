@@ -85,7 +85,7 @@
                     messagesRef.on('value',function(){    
                         console.log($scope.messages);
                         $('.newsticker').newsTicker({
-                            row_height: 80,
+                            row_height: 170,
                             max_rows: 2,
                             speed: 500,
                             duration: 6000,
@@ -119,6 +119,28 @@
     $scope.filteredMessages = $firebaseArray(query);
     
     //console.log($scope.messages);
+
+      $scope.events.$loaded()
+                .then(function(){
+                    
+                    eventsRef.on('value',function(){    
+                        console.log($scope.messages);
+                        $('.eventsticker').newsTicker({
+                            row_height: 80,
+                            max_rows: 2,
+                            speed: 500,
+                            duration: 3000,
+                        });
+
+
+
+              
+                   })
+                    
+                });  
+
+
+
 
     }
 ]);
@@ -225,7 +247,7 @@ video.addEventListener('click',function(){
                                 <div class="home-post-right">
                                 
                                 <h2><a href="#" ng-bind="message.newsTitle">CSS3 Animations and Sprites</a></h2> 
-                                <div class="hme-post-details"><a href="#" ng-bind="message.newsSrc">Codrops</a> | INNOV8 Staff</div> 
+                                <div class="hme-post-details"><a href="#" ng-bind="message.newsSrc">Codrops</a> | INNOV8 HQ</div> 
                                 <p ng-bind="message.newsShort">This command scaffolds an AngularJS application in the current folder. After running yo angular, Yeoman will ask you a few questions regarding how you want to set up your application....  </p>
                                 <div class="home-post-activity">
                                     <a href="#" class="upvote-primary-btn">Upvote <b>13</b></a> <div class="other-home-activity"> <a href="#">Comment <b>10+</b></a></div>
@@ -244,7 +266,7 @@ video.addEventListener('click',function(){
                 <ul class="date-division more-margin-10">
                     <li ng-controller="eventCntrl">
                         <h3>Upcoming Events</h3>
-                        <ul class="postul">
+                        <ul class="postul eventsticker">
                             
                             
                          <li class="hme-postli" ng-repeat="event in events">
